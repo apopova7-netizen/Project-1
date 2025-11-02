@@ -4,8 +4,6 @@
 
 #ifndef FUNCTION_PROJECT_1_STUDENT_1_H
 #define FUNCTION_PROJECT_1_STUDENT_1_H
-
-#include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -512,6 +510,7 @@ char inline *Rounding(char* number, int base) {
         AddingUnut(number, result, 0, len - 2, digitfracpart);
         return result;
     }
+
 
 
 
