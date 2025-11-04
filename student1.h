@@ -1,9 +1,9 @@
 //
-// Created by Lenovo on 29.10.2025.
+// Created by Lenovo on 04.11.2025.
 //
 
-#ifndef FUNCTION_PROJECT_1_STUDENT_1_H
-#define FUNCTION_PROJECT_1_STUDENT_1_H
+#ifndef PROJECT_1_STUDENT1_H
+#define PROJECT_1_STUDENT1_H
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -13,59 +13,61 @@
 #define MEMORY_ERROR_DOUBLE (-1.0)
 #define MEMORY_ERROR_INT (-1)
 #define ALL_DIGITS_MAX 100
-int CheckInput();
-int ValidateBase(int);
-int CharToValue(char);
-char ValueToChar(int);
-char* AcceptableSymbols(int);
-int ValidateNumber(char *, int, int);
-void SplitNumberString(char* , char*,char*);
-long long IntStringToDecimal(char*, int);
-double FracStringToDecimal(char*, int, int);
-double StringToDecimal(char*, int);
-char* IntDecimalToString(long long, int);
-char* FloatDecimalToString(double, int);
-char* DecimalToString(double, int);
-char *Rounding(char*, int );
-int MaxDidgits(char*, int, int, int);
-void AddingUnut(char*,char*, int, int, int);
-#endif
+inline int CheckInput();
+inline int ValidateBase(int);
+inline int CharToValue(char);
+inline char ValueToChar(int);
+inline char* AcceptableSymbols(int);
+inline int ValidateNumber(char*, int);
+inline void SplitNumberString(char*, char*,char*);
+inline long long IntStringToDecimal(char*, int);
+inline double FracStringToDecimal(char*, int);
+inline double StringToDecimal(char*, int);
+inline char* IntDecimalToString(long long, int);
+inline char* FracDecimalToString(double, int);
+inline char* DecimalToString(double, int);
+inline char* Rounding(char*, int);
+inline int MaxDigits(char*, int, int, int);
+inline void AddingUnit(char*, char*, int, int, int);
+inline int DisappearanceOfTheFractionalPart(char*, int);
+#endif //PROJECT_1_STUDENT1_H
+
 
 /* Checks that there are no more characters after the number entered.
  * Reads all characters until the end of the line.
  * If anything other than a space or tab is encountered, considers the
  * input to be incorrected */
-int inline CheckInput() {
-    int nextchar;
-    while ((nextchar = getchar()) != '\n') {
-        if (nextchar != ' ' && nextchar != '\t')
+int CheckInput() {
+    int nextChar;
+    while ((nextChar = getchar()) != '\n') {
+        if (nextChar != ' ' && nextChar != '\t')
             return 0;
     }
     return 1;
 }
 
 /*checks the validity of the number system*/
-int inline ValidateBase(int base) {
+int ValidateBase(int base) {
     if (base >= 2 && base <= 16)
         return 1;
     return 0;
 }
 
 /* Returns the numeric value of a character using the ASCII table. */
-int inline CharToValue(char c) {
-    if (c >= '0' && c <= '9')
-        return c - '0';
+int CharToValue(char character) {
+    if (character >= '0' && character <= '9')
+        return character - '0';
 
-    if (c >= 'a' && c <= 'f')
-        return c - 'a' + 10;
+    if (character >= 'a' && character <= 'f')
+        return character - 'a' + 10;
 
-    if (c >= 'A' && c <= 'F')
-        return c - 'A' + 10;
+    if (character >= 'A' && character <= 'F')
+        return character - 'A' + 10;
     return -1;
 }
 
 /* Returns the character designation of a number using the ASCII table. */
-char inline ValueToChar(int value) {
+char ValueToChar(int value) {
     if (value >= 0 && value <= 9)
         return (char)('0' + value);
 
@@ -74,47 +76,49 @@ char inline ValueToChar(int value) {
 
 
 /* Returns a list of characters that are valid in the given number system. */
-char inline *AcceptableSymbols(int base) {
-    int lenlist;
+char* AcceptableSymbols(int base) {
+    int lenList;
 
     if (base <= 10)
-        lenlist = base + 1;
+        lenList = base + 1;
 
     /* For a base greater than 9, the list needs a space for uppercase
      *letters, because the function ValueToChar only returns lowercase letters */
     else
-        lenlist = base + (base - 10) + 1;
+        lenList = base + (base - 10) + 1;
 
-    char *listofcharacters = malloc((lenlist + 1) * sizeof(char));
+    char *listOfCharacters = malloc((lenList + 1) * sizeof(char));
 
-    if (listofcharacters == NULL)
+    if (listOfCharacters == NULL)
         return MEMORY_ERROR_CHAR;
 
-    int capitalletters = 0;
+    int capitalLetters = 0;
 
     for (int i = 0; i < base; i++) {
-        *(listofcharacters + i) = ValueToChar(i);
+        *(listOfCharacters + i) = ValueToChar(i);
 
         /* Adds uppercase letters, leaving space for a point */
         if (i >= 10) {
-            capitalletters++;
-            *(listofcharacters + lenlist - 1 - capitalletters) = (char)('A' + (i - 10));
+            capitalLetters++;
+            *(listOfCharacters + lenList - 1 - capitalLetters) = (char)('A' + (i - 10));
         }
         }
 
-        *(listofcharacters + lenlist - 1) = '.';
-        *(listofcharacters + lenlist) = '\0';
+        *(listOfCharacters + lenList - 1) = '.';
+        *(listOfCharacters + lenList) = '\0';
 
-        return listofcharacters;
+        return listOfCharacters;
     }
 
 /* checks that all characters in the number satisfy the given number system
  * and that there are no leading zeros, dots at the beginning and end of the
  * number, or more than one point*/
-int inline ValidateNumber(char *number, int base, int len) {
+int ValidateNumber(char *number, int base) {
+    int len = (int)strlen(number);
+
     char *list = AcceptableSymbols(base);
 
-    if (list == NULL)
+    if (list == MEMORY_ERROR_CHAR)
         return MEMORY_ERROR_INT;
 
     if (*number == '.' || *(number + len - 1) == '.') {
@@ -134,15 +138,15 @@ int inline ValidateNumber(char *number, int base, int len) {
         }
     /* Checks that each character in the string appears in the list*/
     for (int i = 0; i < len; i++) {
-        int validcharacter = 0;
+        int validCharacter = 0;
 
         for (int j = 0; *(list + j) != '\0'; j++)
             if (*(number + i) == *(list + j)) {
-                validcharacter = 1;
+                validCharacter = 1;
                 break;
             }
 
-        if (validcharacter == 0) {
+        if (validCharacter == 0) {
             free(list);
             return 0;
         }
@@ -164,81 +168,83 @@ int inline ValidateNumber(char *number, int base, int len) {
 }
 
 /*Splits a string number into its integer and fractional parts.*/
-void inline SplitNumberString(char* number, char* integerpart, char* fractionalpart) {
+void SplitNumberString(char* number, char* integerPart, char* fractionalPart) {
 
-    int pointindex = 0;
+    int pointIndex = -1;
 
     for (int i = 0; *(number + i) != '\0'; i++) {
         if (*(number + i) == '.') {
-            pointindex = i;
+            pointIndex = i;
             break;
         }
     }
     /* If there is no dot in the number,copies the integer part and
      * leaves the fractional part empty.*/
-    if (pointindex == 0) {
-        strcpy(integerpart, number);
-        *fractionalpart = '\0';
+    if (pointIndex == -1) {
+        strcpy(integerPart, number);
+        *fractionalPart = '\0';
     }
     else {
         /* copies the integer part*/
-        strncpy(integerpart, number, pointindex);
-        *(integerpart + pointindex) = '\0';
+        strncpy(integerPart, number, pointIndex);
+        *(integerPart + pointIndex) = '\0';
 
         /* copies the fractional part*/
-        strcpy(fractionalpart, number + pointindex + 1);
+        strcpy(fractionalPart, number + pointIndex + 1);
     }
 }
 
 /* Converts an integer part from a certain number system to decimal using
  * the Gorner algorithm */
-long long inline IntStringToDecimal(char* integerpart, int base) {
+long long IntStringToDecimal(char* integerPart, int base) {
     long long result = 0;
 
-    for (int i = 0; *(integerpart + i) != '\0'; i++)
-        result = result * base + CharToValue(*(integerpart + i));
+    for (int i = 0; *(integerPart + i) != '\0'; i++)
+        result = result * base + CharToValue(*(integerPart + i));
 
     return result;
 }
 
 /* Converts a fractional part from a certain number system to decimal. */
-double inline FracStringToDecimal(char* fractionalpart, int base, int len) {
+double FracStringToDecimal(char* fractionalPart, int base) {
+    int len = (int)strlen(fractionalPart);
     double result = 0;
+
     for (int i = len - 1; i >= 0; i--)
-        result = (result + CharToValue(*(fractionalpart + i))) / base;
+        result = (result + CharToValue(*(fractionalPart + i))) / base;
     return result;
 }
 
 /* Converts the integer and fractional parts of a number to the decimal system
  *and sums the results*/
-double inline StringToDecimal(char* number, int base) {
-    char* integerpart = malloc( (MAX_LENGTH_OF_NUMBER + 1) * sizeof(char));
+double StringToDecimal(char* number, int base) {
+    char* integerPart = malloc( (MAX_LENGTH_OF_NUMBER + 1) * sizeof(char));
 
-    if (integerpart == NULL)
+    if (integerPart == NULL)
         return MEMORY_ERROR_DOUBLE;
 
-    char* fractionalpart = malloc( (MAX_LENGTH_OF_FRACTIONAL_PART + 1) * sizeof(char));
+    char* fractionalPart = malloc( (MAX_LENGTH_OF_FRACTIONAL_PART + 1) * sizeof(char));
 
-    if (fractionalpart == NULL) {
-        free(integerpart);
+    if (fractionalPart == NULL) {
+        free(integerPart);
         return MEMORY_ERROR_DOUBLE;
     }
 
-    SplitNumberString(number, integerpart, fractionalpart);
+    SplitNumberString(number, integerPart, fractionalPart);
 
-    long long intpartindecimal = IntStringToDecimal(integerpart, base);
-    double fracpartindecimal = FracStringToDecimal(fractionalpart, base, (int)strlen(fractionalpart));
+    long long intPartInDecimal = IntStringToDecimal(integerPart, base);
+    double FracPartInDecimal = FracStringToDecimal(fractionalPart, base);
 
-    double result = (double)intpartindecimal + fracpartindecimal;
+    double result = (double)intPartInDecimal + FracPartInDecimal;
 
-    free(integerpart);
-    free(fractionalpart);
+    free(integerPart);
+    free(fractionalPart);
 
     return result;
 }
 
 /* Converts an integer from decimal to a certain number system. */
-char inline * IntDecimalToString(long long number, int base) {
+char* IntDecimalToString(long long number, int base) {
     if (number == 0) {
         char *res = malloc(2 * sizeof(char));
 
@@ -250,24 +256,24 @@ char inline * IntDecimalToString(long long number, int base) {
         return res;
     }
 
-    int lenres = 0;
-    long long copynum = number;
+    int lenRes = 0;
+    long long copyNum = number;
 
     /* Defines the length of the converted number. */
-    while (copynum > 0) {
-        lenres++;
-        copynum /= base;
+    while (copyNum > 0) {
+        lenRes++;
+        copyNum /= base;
     }
 
-    char *result = malloc((lenres + 1)  * sizeof(char));
+    char *result = malloc((lenRes + 1)  * sizeof(char));
 
     if (result == NULL)
         return MEMORY_ERROR_CHAR;
 
-    *(result + lenres) = '\0';
+    *(result + lenRes) = '\0';
 
     /* Fills an array with characters in reverse order. */
-    int i = lenres - 1;
+    int i = lenRes - 1;
     while (number > 0) {
         char character = ValueToChar((int)(number % base));
         *(result + i) = character;
@@ -283,84 +289,84 @@ char inline * IntDecimalToString(long long number, int base) {
  * The character designation of the integer part of the resulting number
  * is the first digit after the decimal point of the converted number.
  * The fractional remainder is then converted in a similar manner. */
-char inline *FloatDecimalToString(double number, int base) {
-    int signsafterpoint = 0;
+char* FracDecimalToString(double number, int base) {
+    int signsAfterPoint = 0;
+
     char *result = malloc((MAX_LENGTH_OF_FRACTIONAL_PART + 1 + 1) * sizeof(char));
 
     if (result == NULL)
         return MEMORY_ERROR_CHAR;
 
     /* Needs to get the first 13 digits after decimal point for rounding*/
-    while (signsafterpoint < MAX_LENGTH_OF_FRACTIONAL_PART + 1) {
+    while (signsAfterPoint < MAX_LENGTH_OF_FRACTIONAL_PART + 1) {
         char character = ValueToChar((int)(number * base));
 
-        *(result + signsafterpoint) = character;
-        signsafterpoint ++;
+        *(result + signsAfterPoint) = character;
+        signsAfterPoint ++;
 
         number = number * base - (int)(number * base);
 
         /* Returns the result earlier if there are fewer than 13 digits after
          * the decimal point.*/
         if (number == 0) {
-            *(result + signsafterpoint) = '\0';
-            return result;
+            break;
         }
     }
-    *(result + signsafterpoint) = '\0';
+    *(result + signsAfterPoint) = '\0';
     return result;
 }
 
 /*Converts a number from the decimal number system to the finite number system*/
-char inline *DecimalToString(double number, int base) {
+char* DecimalToString(double number, int base) {
 
-    long long integerpart = (long long)number ;
-    double fractionalpart = number - (double)integerpart ;
+    long long integerPart = (long long)number ;
+    double fractionalPart = number - (double)integerPart ;
 
     /*If the number does not contain a fractional part, simply convert it.*/
-    if (number == (double)integerpart) {
+    if (number == (double)integerPart) {
         char* result = IntDecimalToString((long long)number, base);
         return result;
     }
 
     /* If there is a fractional part, it converts the integer and fractional parts
      * separately and combines the results*/
-    char* convintpart = IntDecimalToString(integerpart, base);
+    char* convIntPart = IntDecimalToString(integerPart, base);
 
-    if (convintpart == NULL) {
+    if (convIntPart == NULL) {
         return MEMORY_ERROR_CHAR;
     }
 
-    char* convfracpart = FloatDecimalToString(fractionalpart, base);
-    if (convfracpart == NULL) {
-        free(convintpart);
+    char* convFracPart = FracDecimalToString(fractionalPart, base);
+    if (convFracPart == NULL) {
+        free(convIntPart);
         return MEMORY_ERROR_CHAR;
     }
 
     /* Determines the length of the result, including the point */
-    int lenres = (int)strlen(convintpart) + (int)strlen(convfracpart) + 1;
+    int lenRes = (int)strlen(convIntPart) + (int)strlen(convFracPart) + 1;
 
-    char* result = malloc((lenres + 1) * sizeof(char));
+    char* result = malloc((lenRes + 1) * sizeof(char));
 
     if (result == NULL)
         return MEMORY_ERROR_CHAR;
 
-    int pointindex = 0;
-    for (int i = 0; i < strlen(convintpart); i++) {
-        *(result + i) = *(convintpart + i);
-        pointindex = i + 1;
+    int pointIndex = 0;
+    for (int i = 0; i < strlen(convIntPart); i++) {
+        *(result + i) = *(convIntPart + i);
+        pointIndex = i + 1;
     }
 
-    *(result + pointindex) = '.';
+    *(result + pointIndex) = '.';
     int j = 0;
-    for (int i = pointindex + 1; i <= pointindex + strlen(convfracpart); i++) {
-        *(result + i) = *(convfracpart + j);
+    for (int i = pointIndex + 1; i <= pointIndex + strlen(convFracPart); i++) {
+        *(result + i) = *(convFracPart + j);
         j++;
     }
 
-    *(result + lenres) = '\0';
+    *(result + lenRes) = '\0';
 
-    free(convfracpart);
-    free(convintpart);
+    free(convFracPart);
+    free(convIntPart);
 
     return result;
 }
@@ -368,7 +374,7 @@ char inline *DecimalToString(double number, int base) {
 /* if all the digits on this segment are equal to the maximum digit in this
  * number system, then returns ALL_DIGITS_MAX, otherwise returns the index
  * of the digit that is less than base - 1 and occupies the rightmost position. */
-int inline MaxDidgits(char* number, int index1, int index2, int base) {
+int MaxDigits(char* number, int index1, int index2, int base) {
     for (int i = index2; i >= index1; i--)
         if (CharToValue(*(number + i)) < base - 1)
             return i;
@@ -376,21 +382,22 @@ int inline MaxDidgits(char* number, int index1, int index2, int base) {
 }
 
 /* Increases the number with a digit less than base -1 by one */
-void inline AddingUnut(char *number,char *result, int index1, int index2, int nomaxdigitingex) {
+void AddingUnit(char *number,char *result, int index1, int index2, int noMaxDigitIndex) {
     int flag = 0;
-    int flagpoint = 0;
+    int flagPoint = 0;
 
     for (int i = index1; i <= index2; i++) {
         if (*(number + i) == '.')
-            flagpoint = 1;
+            flagPoint = 1;
 
         /* The digit at the position whose index was found using
          * the MaxDigits function is increased by 1.*/
-        if (i == nomaxdigitingex) {
-            int valuechar = CharToValue(*(number + i));
-            *(result + i) = ValueToChar(valuechar + 1) ;
+        if (i == noMaxDigitIndex) {
+            int valueChar = CharToValue(*(number + i));
+            *(result + i) = ValueToChar(valueChar + 1) ;
             flag = 1;
         }
+
         /*All numbers before the one being changed are copied*/
         else if (flag == 0)
             *(result + i) = *(number + i);
@@ -402,8 +409,10 @@ void inline AddingUnut(char *number,char *result, int index1, int index2, int no
 
             if (*(number + i) == '.')
                 *(result + i) = '.';
-            else if (flagpoint == 0)
+
+            else if (flagPoint == 0)
                 *(result + i) = '0';
+
             else {
                 *(result + i) = '\0';
                 break;
@@ -412,20 +421,27 @@ void inline AddingUnut(char *number,char *result, int index1, int index2, int no
     *(result + index2 + 1) = '\0';
 }
 
+/* Checks that the fractional part of a number consists only of zeros. */
+int DisappearanceOfTheFractionalPart(char* number, int pointIndex) {
+    for (int i = pointIndex + 1; *(number + i) != '\0'; i++)
+        if (*(number + i) != '0')
+            return 0;
+    return 1;
+}
 
 /* Rounds the number to 12 decimal places */
-char inline *Rounding(char* number, int base) {
+char* Rounding(char* number, int base) {
     int len = (int)strlen(number);
-    int pointindex = -1;
+    int pointIndex = -1;
 
     for (int i = 0; i < len; i++) {
         if (*(number + i) == '.') {
-            pointindex = i;
+            pointIndex = i;
             break;
         }
     }
     /* If number is an integer, returns it */
-    if (pointindex == -1) {
+    if (pointIndex == -1) {
         char *result = malloc((len + 1) * sizeof(char));
 
         if (result == NULL)
@@ -435,10 +451,10 @@ char inline *Rounding(char* number, int base) {
         return result;
     }
 
-    int lenfracpart = len - pointindex - 1;
+    int lenFracPart = len - pointIndex - 1;
 
     /* If the number has no more than 12 decimal places, returns it */
-    if (lenfracpart <= MAX_LENGTH_OF_FRACTIONAL_PART) {
+    if (lenFracPart <= MAX_LENGTH_OF_FRACTIONAL_PART) {
         char *result = malloc((len + 1) * sizeof(char));
 
         if (result == NULL)
@@ -449,8 +465,8 @@ char inline *Rounding(char* number, int base) {
     }
         /* If the value of the last digit is less than half the base of the number
          * system, simply discards the last digit and returns number */
-        int valeulastdigit = CharToValue(*(number + len - 1));
-        if (valeulastdigit < (double)base / 2) {
+        int valueLastDigit = CharToValue(*(number + len - 1));
+        if (valueLastDigit < (double)base / 2) {
             char* result = malloc(len * sizeof(char));
 
             if (result == NULL)
@@ -458,45 +474,50 @@ char inline *Rounding(char* number, int base) {
 
             strncpy(result, number, len-1);
             *(result + len - 1) = '\0';
+
+            /* If only zeros remain after discarding the last digit in the
+             * fractional part, only the integer part should be returned. */
+            if (DisappearanceOfTheFractionalPart(result, pointIndex))
+                *(result + pointIndex) = '\0';
             return result;
         }
 
         /* If the first 12 digits of the fractional part are equal to the maximum
          * in the given number system, returns the integer part of the number
          * increased by 1 */
-        int digitfracpart = MaxDidgits(number, pointindex + 1, len - 2, base);
+        int digitFracPart = MaxDigits(number, pointIndex + 1, len - 2, base);
 
-        if (digitfracpart == ALL_DIGITS_MAX) {
-            int digitintpart = MaxDidgits(number, 0, pointindex - 1, base);
+        if (digitFracPart == ALL_DIGITS_MAX) {
+            int digitIntPart = MaxDigits(number, 0, pointIndex - 1, base);
 
             /*If all digits of the integer part are equal to the maximum
              *possible in a given number system, returns 100...0, Where the
              *number of zeros is equal to the length of the integer part
              *of the given number  */
-            if (digitintpart== ALL_DIGITS_MAX) {
-                int lenres = pointindex + 1;
+            if (digitIntPart== ALL_DIGITS_MAX) {
+                int lenRes = pointIndex + 1;
 
-                char *result = malloc((lenres + 1) * sizeof(char));
+                char *result = malloc((lenRes + 1) * sizeof(char));
 
                 if (result == NULL)
                     return MEMORY_ERROR_CHAR;
 
                 *result = '1';
-                for (int i = 1; i < lenres; i++)
+                for (int i = 1; i < lenRes; i++)
                     *(result + i) = '0';
 
-                *(result + lenres) = '\0';
+                *(result + lenRes) = '\0';
                 return result;
             }
 
             /* If not all digits of the integer part are equal to the maximum
              * in a given number system, uses the function AddingUnit */
-            char *result = malloc((pointindex + 1) * sizeof(char));
+            char *result = malloc((pointIndex + 1) * sizeof(char));
 
             if (result == NULL)
                 return MEMORY_ERROR_CHAR;
 
-            AddingUnut(number,result,0,pointindex - 1, digitintpart);
+            AddingUnit(number,result,0,pointIndex - 1, digitIntPart);
             return result;
         }
 
@@ -507,10 +528,6 @@ char inline *Rounding(char* number, int base) {
         if (result == NULL)
             return MEMORY_ERROR_CHAR;
 
-        AddingUnut(number, result, 0, len - 2, digitfracpart);
+        AddingUnit(number, result, 0, len - 2, digitFracPart);
         return result;
     }
-
-
-
-
