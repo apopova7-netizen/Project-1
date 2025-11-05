@@ -1,7 +1,3 @@
-//
-// Created by Lenovo on 04.11.2025.
-//
-
 #ifndef PROJECT_1_STUDENT1_H
 #define PROJECT_1_STUDENT1_H
 
@@ -534,4 +530,5 @@ char* Rounding(char* number, int base) {
 
         AddingUnit(number, result, 0, len - 2, digitFracPart);
         return result;
+
     }
