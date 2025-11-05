@@ -19,7 +19,7 @@ inline char ValueToChar(int);
 inline char* AcceptableSymbols(int);
 inline int ValidateNumber(char*, int);
 inline void SplitNumberString(char*, char*,char*);
-inline long long IntStringToDecimal(char*, int);
+inline double IntStringToDecimal(char*, int);
 inline double FracStringToDecimal(char*, int);
 inline double StringToDecimal(char*, int);
 inline char* IntDecimalToString(long long, int);
@@ -196,8 +196,8 @@ void SplitNumberString(char* number, char* integerPart, char* fractionalPart) {
 
 /* Converts an integer part from a certain number system to decimal using
  * the Gorner algorithm */
-long long IntStringToDecimal(char* integerPart, int base) {
-    long long result = 0;
+double IntStringToDecimal(char* integerPart, int base) {
+    double result = 0;
 
     for (int i = 0; *(integerPart + i) != '\0'; i++)
         result = result * base + CharToValue(*(integerPart + i));
@@ -232,10 +232,10 @@ double StringToDecimal(char* number, int base) {
 
     SplitNumberString(number, integerPart, fractionalPart);
 
-    long long intPartInDecimal = IntStringToDecimal(integerPart, base);
+    double intPartInDecimal = IntStringToDecimal(integerPart, base);
     double FracPartInDecimal = FracStringToDecimal(fractionalPart, base);
 
-    double result = (double)intPartInDecimal + FracPartInDecimal;
+    double result = intPartInDecimal + FracPartInDecimal;
 
     free(integerPart);
     free(fractionalPart);
@@ -323,8 +323,8 @@ char* DecimalToString(double number, int base) {
     double fractionalPart = number - (double)integerPart ;
 
     /*If the number does not contain a fractional part, simply convert it.*/
-    if (number == (double)integerPart) {
-        char* result = IntDecimalToString((long long)number, base);
+    if (fractionalPart == 0.0) {
+        char* result = IntDecimalToString(integerPart, base);
         return result;
     }
 
@@ -530,5 +530,4 @@ char* Rounding(char* number, int base) {
 
         AddingUnit(number, result, 0, len - 2, digitFracPart);
         return result;
-
     }
