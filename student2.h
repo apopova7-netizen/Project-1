@@ -1,7 +1,3 @@
-//
-// Created by Lenovo on 05.11.2025.
-//
-
 #ifndef PROJECT_1_STUDENT2_H
 #define PROJECT_1_STUDENT2_H
 
@@ -342,3 +338,4 @@ void Analyze(const char** numberStrings, const int* bases, int count)
 
     free(numbers);
 }
+
