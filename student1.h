@@ -4,15 +4,18 @@
 
 #ifndef PROJECT_1_STUDENT1_H
 #define PROJECT_1_STUDENT1_H
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
 #define MAX_LENGTH_OF_NUMBER 13
 #define MAX_LENGTH_OF_FRACTIONAL_PART 12
 #define MEMORY_ERROR_CHAR NULL
 #define MEMORY_ERROR_DOUBLE (-1.0)
 #define MEMORY_ERROR_INT (-1)
 #define ALL_DIGITS_MAX 100
+
 inline int CheckInput();
 inline int ValidateBase(int);
 inline int CharToValue(char);
@@ -30,6 +33,7 @@ inline char* Rounding(char*, int);
 inline int MaxDigits(char*, int, int, int);
 inline void AddingUnit(char*, char*, int, int, int);
 inline int DisappearanceOfTheFractionalPart(char*, int);
+
 #endif //PROJECT_1_STUDENT1_H
 
 

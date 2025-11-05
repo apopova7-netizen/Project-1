@@ -1,5 +1,10 @@
-#ifndef STUDENT2_H
-#define STUDENT2_H
+//
+// Created by Lenovo on 05.11.2025.
+//
+
+#ifndef PROJECT_1_STUDENT2_H
+#define PROJECT_1_STUDENT2_H
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -8,26 +13,25 @@
 #define MAX_COUNT_OF_NUMBERS 100
 #define MAX_LENGTH_OF_NUMBER 14
 
-void BubbleSortDouble(double* arr, int size);
-void SwapDouble(double* a, double* b);
-void SortNumbers(double* numbers, int count);
-double CalculateMean(const double* numbers, int count);
-double CalculateMedian(double* numbers, int count);
-void FindMinMax(const double* numbers, int count, double* min, double* max);
-int ValidateAndConvertNumber(const char* numberString, int base, double* result);
-int ConvertNumbers(const char** numberStrings, const int* bases, int count, double* results);
-void PrintSortedResults(const double* numbers, int count);
-void PrintStatistics(double min, double max, double mean, double median);
-void Analyze(const char** numberStrings, const int* bases, int count);
+inline void BubbleSortDouble(double*, int);
+inline void SwapDouble(double*, double*);
+inline void SortNumbers(double*, int);
+inline double CalculateMean(const double*, int);
+inline double CalculateMedian(double*, int);
+inline void FindMinMax(const double*, int, double*, double*);
+inline int ValidateAndConvertNumber(const char*, int, double*);
+inline int ConvertNumbers(const char**, const int*, int, double*);
+inline void PrintSortedResults(const double*, int);
+inline void PrintStatistics(double, double, double, double);
+inline void Analyze(const char**, const int*, int);
 
-#endif
+#endif //PROJECT_1_STUDENT2_H
 
-
-/* 
+/*
  * Function: BubbleSortDouble
  * ---------------------------
  * Sorts an array of doubles in ascending order using the Bubble Sort algorithm.
- * 
+ *
  * Parameters:
  *  arr  - pointer to the array of doubles
  *  size - number of elements in the array
@@ -40,11 +44,11 @@ void BubbleSortDouble(double* arr, int size)
                 SwapDouble(arr + j, arr + j + 1);
 }
 
-/* 
+/*
  * Function: SwapDouble
  * ---------------------
  * Swaps the values of two double variables by their pointers.
- * 
+ *
  * Parameters:
  *  a, b - pointers to the two doubles to be swapped
  */
@@ -55,11 +59,11 @@ void SwapDouble(double* a, double* b)
     *b = temp;
 }
 
-/* 
+/*
  * Function: SortNumbers
  * ----------------------
  * Sorts an array of doubles using the BubbleSortDouble function.
- * 
+ *
  * Parameters:
  *  numbers - pointer to the array of doubles
  *  count   - number of elements in the array
@@ -69,15 +73,15 @@ void SortNumbers(double* numbers, int count)
     BubbleSortDouble(numbers, count);
 }
 
-/* 
+/*
  * Function: CalculateMean
  * ------------------------
  * Calculates the arithmetic mean (average) of an array of numbers.
- * 
+ *
  * Parameters:
  *  numbers - pointer to the array of doubles
  *  count   - number of elements in the array
- * 
+ *
  * Returns:
  *  The mean value (0.0 if the array is empty)
  */
@@ -93,18 +97,18 @@ double CalculateMean(const double* numbers, int count)
     return sum / count;
 }
 
-/* 
+/*
  * Function: CalculateMedian
  * --------------------------
  * Calculates the median value of an array of doubles.
- * 
- * The function creates a copy of the array, sorts it, 
+ *
+ * The function creates a copy of the array, sorts it,
  * and returns the middle value (or the average of the two middle values if even count).
- * 
+ *
  * Parameters:
  *  numbers - pointer to the array of doubles
  *  count   - number of elements in the array
- * 
+ *
  * Returns:
  *  The median value
  */
@@ -112,14 +116,14 @@ double CalculateMedian(double* numbers, int count)
 {
     if(count == 0)
         return 0.0;
-    
+
     double* copyNumbers = (double*)malloc(count * sizeof(double));
     if(!copyNumbers)
         return 0.0;
 
     for (int i = 0; i < count; i++)
         *(copyNumbers + i) = *(numbers + i);
-    
+
     SortNumbers(copyNumbers, count);
 
     double median;
@@ -132,11 +136,11 @@ double CalculateMedian(double* numbers, int count)
     return median;
 }
 
-/* 
+/*
  * Function: FindMinMax
  * ---------------------
  * Finds the minimum and maximum values in an array of doubles.
- * 
+ *
  * Parameters:
  *  numbers - pointer to the array
  *  count   - number of elements in the array
@@ -147,7 +151,7 @@ void FindMinMax(const double* numbers, int count, double* min, double* max)
 {
     if(count == 0)
         return;
-    
+
     *min = *max = *(numbers + 0);
     for (int i = 0; i < count; i++)
     {
@@ -158,19 +162,19 @@ void FindMinMax(const double* numbers, int count, double* min, double* max)
     }
 }
 
-/* 
+/*
  * Function: ValidateAndConvertNumber
  * -----------------------------------
  * Validates a number represented as a string in a given base (2–16),
  * and converts it into a decimal (base 10) double value.
- * 
+ *
  * Supports fractional parts separated by '.'.
- * 
+ *
  * Parameters:
  *  numberString - string representing the number
  *  base         - base of the number (2–16)
  *  result       - pointer to store the converted value
- * 
+ *
  * Returns:
  *  1 if the conversion was successful, 0 otherwise
  */
@@ -178,7 +182,7 @@ int ValidateAndConvertNumber(const char* numberString, int base, double* result)
 {
     if(!numberString || base < 2 || base > 16)
         return 0;
-    
+
     const char* symbols = "0123456789ABCDEF";
     char* copyNumberString = (char*)malloc(strlen(numberString) + 1);
     if (!copyNumberString)
@@ -222,12 +226,12 @@ int ValidateAndConvertNumber(const char* numberString, int base, double* result)
             char* sign = strchr(symbols, *(fractional + i));
             if(!sign || (sign - symbols) >= base)
             {
-                free(copyNumberString);                  
+                free(copyNumberString);
                 return 0;
             }
             fractionalPart += (sign - symbols) / denominator;
             denominator *= base;
-        }   
+        }
     }
 
     free(copyNumberString);
@@ -235,18 +239,18 @@ int ValidateAndConvertNumber(const char* numberString, int base, double* result)
     return 1;
 }
 
-/* 
+/*
  * Function: ConvertNumbers
  * -------------------------
  * Converts an array of string-based numbers (each in a specific base)
  * into their decimal (double) equivalents.
- * 
+ *
  * Parameters:
  *  numberStrings - array of string representations of numbers
  *  bases         - array of bases corresponding to each number
  *  count         - number of elements to process
  *  results       - output array for converted values
- * 
+ *
  * Returns:
  *  The number of successfully converted values
  */
@@ -269,11 +273,11 @@ int ConvertNumbers(const char** numberStrings, const int* bases, int count, doub
     return validCount;
 }
 
-/* 
+/*
  * Function: PrintSortedResults
  * -----------------------------
  * Prints the sorted list of numbers to the console.
- * 
+ *
  * Parameters:
  *  numbers - array of numbers
  *  count   - number of elements
@@ -283,14 +287,14 @@ void PrintSortedResults(const double* numbers, int count)
     printf("Sorted: ");
     for (int i = 0; i < count; i++)
     {
-        printf("%f", *(numbers + i));    
+        printf("%f", *(numbers + i));
         if(i < count - 1)
             printf(", ");
     }
     printf("\n");
 }
 
-/* 
+/*
  * Function: PrintStatistics
  * --------------------------
  * Prints statistical information: minimum, maximum, mean, and median.
@@ -300,7 +304,7 @@ void PrintStatistics(double min, double max, double mean, double median)
     printf("Min: %f, Max: %f, Mean: %f, Median: %f\n", min, max, mean, median);
 }
 
-/* 
+/*
  * Function: Analyze
  * ------------------
  * Main analysis function that:
