@@ -1,6 +1,3 @@
-//
-// Created by Lenovo on 04.11.2025.
-//
 
 #ifndef PROJECT_1_STUDENT1_H
 #define PROJECT_1_STUDENT1_H
@@ -525,12 +522,12 @@ char* Rounding(const char* number, int base) {
     }
 char *Student1Process(int baseNumberSystem1,int baseNumberSystem2, const char *number) {
 
-    if (strlen(number) > 13){
+    /* Checks that the length of a number is not greater than 13 */
+    if (strlen(number) > MAX_LENGTH_OF_NUMBER){
         puts("Bad input");
         return NULL;
     }
-
-
+     /* Сhecks that the bases of the number systems are entered correctly */
     if (ValidateBase(baseNumberSystem1) == 0 || ValidateBase(baseNumberSystem2) == 0) {
         puts("Bad input");
         return NULL;
@@ -541,13 +538,11 @@ char *Student1Process(int baseNumberSystem1,int baseNumberSystem2, const char *n
 
     if (valid == 0) {
         puts("Bad input");
-
         return NULL;
     }
 
     if (valid == MEMORY_ERROR_INT) {
         puts("Memory Error");
-
         return NULL;
     }
 
@@ -557,12 +552,11 @@ char *Student1Process(int baseNumberSystem1,int baseNumberSystem2, const char *n
 
     if (numberInDecimal == MEMORY_ERROR_DOUBLE) {
         puts("Memory Error");
-
         return NULL;
     }
 
     /* Converts the number from the decimal number system to the final number system. */
-    char * result = DecimalToString(numberInDecimal, baseNumberSystem2);
+    char *result = DecimalToString(numberInDecimal, baseNumberSystem2);
 
     if (result == MEMORY_ERROR_CHAR) {
         puts("Memory Error");
@@ -578,6 +572,7 @@ char *Student1Process(int baseNumberSystem1,int baseNumberSystem2, const char *n
         free(result);
         return NULL;
     }
+
     free(result);
     return roundingResult;
 }
