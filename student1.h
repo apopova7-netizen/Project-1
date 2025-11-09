@@ -1,6 +1,6 @@
 
-#ifndef PROJECT_1_STUDENT1_H
-#define PROJECT_1_STUDENT1_H
+#ifndef 1_STUDENT1_H
+#define 1_STUDENT1_H
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -32,7 +32,7 @@ inline void AddingUnit(const char*, char*, int, int, int);
 inline int DisappearanceOfTheFractionalPart(const char*, int);
 inline char *Student1Process(int, int, const char*);
 
-#endif //PROJECT_1_STUDENT1_H
+#endif
 
 /*checks the validity of the number system*/
 int ValidateBase(int base) {
@@ -576,6 +576,7 @@ char *Student1Process(int baseNumberSystem1,int baseNumberSystem2, const char *n
     free(result);
     return roundingResult;
 }
+
 
 
 
