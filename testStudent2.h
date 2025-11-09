@@ -2,16 +2,7 @@
 #define TESTSTUDENT2_H
 #include "functionsStudent2.h"
 
-void Test1(void);
 void Test2(void);
-void Test3(void);
-void Test4(void);
-void Test5(void);
-void Test6(void);
-void Test7(void);
-void Test8(void);
-void Test9(void);
-void Test10(void);
 
 #endif
 
