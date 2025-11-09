@@ -1,6 +1,6 @@
 
-#ifndef 1_STUDENT1_H
-#define 1_STUDENT1_H
+#ifndef STUDENT1_H
+#define STUDENT1_H
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -576,6 +576,7 @@ char *Student1Process(int baseNumberSystem1,int baseNumberSystem2, const char *n
     free(result);
     return roundingResult;
 }
+
 
 
 
