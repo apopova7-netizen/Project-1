@@ -1,11 +1,11 @@
 
-#ifndef PROJECT_1_TEST1_H
-#define PROJECT_1_TEST1_H
+#ifndef TESTSTUDENT1_H
+#define TESTSTUDENT1_H
 
 #include "student1.h"
 inline void Test1();
 
-#endif //PROJECT_1_TEST1_H
+#endif 
 
 void Test1(){
 
@@ -363,4 +363,5 @@ void Test1(){
 
     free(result);
 }
+
 
