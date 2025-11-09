@@ -1,8 +1,10 @@
-
 #include "test1.h"
+#include "test2.h"
+
 int main() {
 
     Test1();
-    //Test2();
+    Test2();
 
+    return 0;
 }
