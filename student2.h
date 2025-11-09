@@ -5,9 +5,6 @@
 #include <string.h>
 #include <ctype.h>
 
-#define MAX_COUNT_OF_NUMBERS 100
-#define MAX_LENGTH_OF_NUMBER 14
-
 void BubbleSortDouble(double* arr, int size);
 void SwapDouble(double* a, double* b);
 void SortNumbers(double* numbers, int count);
@@ -321,6 +318,11 @@ void Analyze(const char** numberStrings, const int* bases, int count)
     if (!numbers)
     {
         printf("Memory allocation failed.\n");
+        return;
+    }
+    if(count > 100)
+    {
+        printf("Imput more than 100 valid values.\n");
         return;
     }
 
