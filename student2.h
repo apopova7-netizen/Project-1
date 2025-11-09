@@ -322,7 +322,8 @@ void Analyze(const char** numberStrings, const int* bases, int count)
     }
     if(count > 100)
     {
-        printf("Imput more than 100 valid values.\n");
+        printf("Input more than 100 valid values.\n");
+        free(numbers);
         return;
     }
 
@@ -346,3 +347,4 @@ void Analyze(const char** numberStrings, const int* bases, int count)
 
     free(numbers);
 }
+
