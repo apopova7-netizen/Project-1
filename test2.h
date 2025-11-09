@@ -1,6 +1,6 @@
 #ifndef TESTSTUDENT2_H
 #define TESTSTUDENT2_H
-#include "functionsStudent2.h"
+#include "student2.h"
 
 void Test2(void);
 
@@ -128,3 +128,4 @@ void Test2()
     printf("Imput more than 100 valid values.\n");
     printf("\n");
 }
+
