@@ -29,8 +29,8 @@ inline char* DecimalToString(double, int);
 inline char* Rounding(const char*, int);
 inline int MaxDigits(const char*, int, int, int);
 inline void AddingUnit(const char*, char*, int, int, int);
-inline int DisappearanceOfTheFractionalPart(const char*, int);
-inline char *Student1Process(int, int, const char*);
+inline int InsignificantZeros(const char*, int);
+inline char* Student1Process(int, int, const char*);
 
 #endif
 
@@ -410,14 +410,13 @@ void AddingUnit(const char *number,char *result, int index1, int index2, int noM
     *(result + index2 + 1) = '\0';
 }
 
-/* Checks that the fractional part of a number consists only of zeros. */
-int DisappearanceOfTheFractionalPart(const char* number, int pointIndex) {
-    for (int i = pointIndex + 1; *(number + i) != '\0'; i++)
+inline int InsignificantZeros(const char* number, int pointindex) {
+    int indexNoZero = -1;
+    for (int i = pointindex + 1; *(number + i) != '\0'; i++)
         if (*(number + i) != '0')
-            return 0;
-    return 1;
+            indexNoZero = i;
+    return indexNoZero;
 }
-
 /* Rounds the number to 12 decimal places */
 char* Rounding(const char* number, int base) {
     int len = (int)strlen(number);
@@ -464,10 +463,11 @@ char* Rounding(const char* number, int base) {
             strncpy(result, number, len-1);
             *(result + len - 1) = '\0';
 
-            /* If only zeros remain after discarding the last digit in the
-             * fractional part, only the integer part should be returned. */
-            if (DisappearanceOfTheFractionalPart(result, pointIndex))
+            int lastSignificDigit = InsignificantZeros(result, pointIndex);
+            if (lastSignificDigit == -1)
                 *(result + pointIndex) = '\0';
+            else
+                *(result + lastSignificDigit  + 1) = '\0';
             return result;
         }
 
@@ -576,6 +576,7 @@ char *Student1Process(int baseNumberSystem1,int baseNumberSystem2, const char *n
     free(result);
     return roundingResult;
 }
+
 
 
 
