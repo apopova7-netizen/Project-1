@@ -109,23 +109,13 @@ double CalculateMedian(double* numbers, int count)
 {
     if(count == 0)
         return 0.0;
-    
-    double* copyNumbers = (double*)malloc(count * sizeof(double));
-    if(!copyNumbers)
-        return 0.0;
-
-    for (int i = 0; i < count; i++)
-        *(copyNumbers + i) = *(numbers + i);
-    
-    SortNumbers(copyNumbers, count);
 
     double median;
     if(count % 2 == 0)
-        median = (*(copyNumbers + count/2) + *(copyNumbers + count/2 - 1)) / 2.0;
+        median = (*(numbers + count/2) + *(numbers + count/2 - 1)) / 2.0;
     else
-        median = *(copyNumbers + count/2);
+        median = *(numbers + count/2);
 
-    free(copyNumbers);
     return median;
 }
 
@@ -347,4 +337,5 @@ void Analyze(const char** numberStrings, const int* bases, int count)
 
     free(numbers);
 }
+
 
