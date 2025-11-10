@@ -410,7 +410,7 @@ void AddingUnit(const char *number,char *result, int index1, int index2, int noM
     *(result + index2 + 1) = '\0';
 }
 
-inline int InsignificantZeros(const char* number, int pointindex) {
+int InsignificantZeros(const char* number, int pointindex) {
     int indexNoZero = -1;
     for (int i = pointindex + 1; *(number + i) != '\0'; i++)
         if (*(number + i) != '0')
@@ -576,6 +576,7 @@ char *Student1Process(int baseNumberSystem1,int baseNumberSystem2, const char *n
     free(result);
     return roundingResult;
 }
+
 
 
 
